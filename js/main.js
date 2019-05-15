@@ -8,32 +8,17 @@ var users = [];
 button.onclick = myFunction;
  function myFunction(){
 
-  var userName=document.getElementById("userName").value;
+var userName=document.getElementById("userName").value;
 var userMail=document.getElementById("userMail").value;
 var userPhone=document.getElementById("userPhone").value;
 var userAge=document.getElementById("userAge").value;
 
 var user = {name: userName , mail: userMail, phone: userPhone, age: userAge}
  users.push(user)
+ 
 
 //  displaay data function
   addData();
-
-  // delete row function
-
-    $(".delete").click(function(e){
-      e.preventDefault();
-      $(this).parent().parent().delete;
-      console.log(      $(this).parent().parent().remove()   )
-      notify.style.display ="block"
-      notifySpan.textContent = ("Your Book Has Been Removed");
-      $(".alert").removeClass("btn-info");
-      $(".alert").addClass("btn-danger");
-  
-  
-    })
-
- 
 
   // delete alert function
   $(".remove").click(function(e){
@@ -42,9 +27,6 @@ var user = {name: userName , mail: userMail, phone: userPhone, age: userAge}
   })
   // clear for function
   clearForm();
-
-  //ocal storage 
-  // localStorage.setItem("users" ,)
 
 }
 
@@ -56,19 +38,30 @@ function addData() {
   for( var i = 0 ; i < users.length ; i++ )
     {
       row += "<tr><td>"+users[i].name +"</td> <td>" + users[i].mail +"</td> <td>"+ users[i].phone +"</td> <td>"
-       + users[i].age+ "<a class =' delete float-right btn-danger px-2' href='#'> x </a>" + "</td> </tr>"
+       + users[i].age+ "<a class =' delete float-right btn-danger px-2' href='#' > x </a>" + "</td> </tr>"
     }
- 
-
   var tableBody = document.getElementById("list");
+      tableBody.innerHTML=row;
 
-    tableBody.innerHTML=row;
+     // delete row function//////////////////////////////
+
+    $(".delete").click(function(r){
+      r.preventDefault();
+       $(this).parent().parent().remove();
+      notify.style.display ="block";
+      notifySpan.textContent = ("Your Book Has Been Removed");
+      $(".alert").removeClass("btn-info");
+      $(".alert").addClass("btn-danger");
+      users.splice(r,1)
+
+    })
   
-    console.log(row)
-
-  
-
 }
+
+
+
+
+
  // clear for function
 function clearForm() {
  
@@ -86,4 +79,3 @@ function clearForm() {
 
 
 
-// window.localStorage.setItem('name', 'Obaseki Nosa');
