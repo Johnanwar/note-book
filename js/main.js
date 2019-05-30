@@ -1,19 +1,22 @@
 
-var button = document.getElementById("submit")
-var notify = document.querySelector(".alert");
-var notifySpan = document.querySelector(".alert-span");
-var users = [];
+var button, notify, notifySpan, users;
+
+ button = document.getElementById("submit")
+ notify = document.querySelector(".alert");
+ notifySpan = document.querySelector(".alert-span");
+ users = [];
 
 
-button.onclick = myFunction;
+ button.onclick = myFunction;
  function myFunction(){
+var userName, userMail, userPhone, userAge, user ;
 
-var userName=document.getElementById("userName").value;
-var userMail=document.getElementById("userMail").value;
-var userPhone=document.getElementById("userPhone").value;
-var userAge=document.getElementById("userAge").value;
+ userName=document.getElementById("userName").value;
+ userMail=document.getElementById("userMail").value;
+ userPhone=document.getElementById("userPhone").value;
+ userAge=document.getElementById("userAge").value;
 
-var user = {name: userName , mail: userMail, phone: userPhone, age: userAge}
+ user = {name: userName , mail: userMail, phone: userPhone, age: userAge}
  users.push(user)
  
 
@@ -28,7 +31,7 @@ var user = {name: userName , mail: userMail, phone: userPhone, age: userAge}
   // clear for function
   clearForm();
 
-}
+};
 
 //  displaay data function
 function addData() {
@@ -54,28 +57,31 @@ function addData() {
       $(".alert").addClass("btn-danger");
       users.splice(r,1)
 
-    })
-  
-}
+    });
+};
 
-
-
-
+  // key enter function
+  document.addEventListener("keypress", function(e){
+    if (e.keyCode ===13 ||e.which ===13 ){
+        myFunction();
+        };
+  });
 
  // clear for function
 function clearForm() {
- 
-  userName.value = "";
-    userMail.value = "";
-    userAge.value = "";
-    userPhone.value = "";
+    var inputs = document.querySelectorAll(".form-control");
+
+    inputs.forEach(function(cur){
+     cur.value = "";
+    inputs[0].focus();
+  });
     notify.style.display ="none";
     notify.style.display ="block";
     $(".alert").removeClass("btn-danger");
     $(".alert").addClass("btn-info");
     notifySpan.textContent = ("Your Book Has Been Added");
 
-}
+};
 
 
 
