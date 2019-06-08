@@ -1,87 +1,120 @@
 
-var button, notify, notifySpan, users;
+  class Book {
+    constructor(userName, userMail, userPhone, userAge) {
+    this.userName = userName;
+    this.userMail = userMail;
+    this.userPhone = userPhone;
+    this.userAge = userAge; 
+    };
+  };
 
- button = document.getElementById("submit")
- notify = document.querySelector(".alert");
- notifySpan = document.querySelector(".alert-span");
- users = [];
+  /// ui controller
+  class UiController{
 
+    // // local storage 
+    // static displayBooks () {
+    //   const storeBooks = Store.getBooks();
+    //   books.forEach((book) => UI.addBookToList(book));   
+    // };
+   
+    // display ddata 
+    static addBookToList(book){
+       var list, row, content;
+       list = document.getElementById("list");
+       row = document.createElement("tr");
+       content = `<td>${book.userName} </td>
+             <td> ${book.userMail} </td>
+             <td>${book.userPhone} </td>
+             <td> ${book.userAge} <button class = "btn btn-danger del float-right" > x </button> </td>`
+       row.innerHTML = content
+       list.appendChild(row)
 
- button.onclick = myFunction;
- function myFunction(){
-var userName, userMail, userPhone, userAge, user ;
-
- userName=document.getElementById("userName").value;
- userMail=document.getElementById("userMail").value;
- userPhone=document.getElementById("userPhone").value;
- userAge=document.getElementById("userAge").value;
-
- user = {name: userName , mail: userMail, phone: userPhone, age: userAge}
- users.push(user)
- 
-
-//  displaay data function
-  addData();
-
-  // delete alert function
-  $(".remove").click(function(e){
-    e.preventDefault();
-    notify.style.display ="none";
-  })
-  // clear for function
-  clearForm();
-
-};
-
-//  displaay data function
-function addData() {
-
-  var row = "";
-
-  for( var i = 0 ; i < users.length ; i++ )
-    {
-      row += "<tr><td>"+users[i].name +"</td> <td>" + users[i].mail +"</td> <td>"+ users[i].phone +"</td> <td>"
-       + users[i].age+ "<a class =' delete float-right btn-danger px-2' href='#' > x </a>" + "</td> </tr>"
-    }
-  var tableBody = document.getElementById("list");
-      tableBody.innerHTML=row;
-
-     // delete row function//////////////////////////////
-
-    $(".delete").click(function(r){
-      r.preventDefault();
-       $(this).parent().parent().remove();
-      notify.style.display ="block";
-      notifySpan.textContent = ("Your Book Has Been Removed");
-      $(".alert").removeClass("btn-info");
-      $(".alert").addClass("btn-danger");
-      users.splice(r,1)
-
+    };
+  // clear values
+  static clearInputs(){
+    var inputs = document.querySelectorAll(".form-control")
+        inputs.forEach((el) => {
+        el.value = ''
+        inputs[0].focus();
     });
-};
+  };
 
-  // key enter function
-  document.addEventListener("keypress", function(e){
-    if (e.keyCode ===13 ||e.which ===13 ){
-        myFunction();
-        };
-  });
+  // delet3 row 
+  static deleteRow(el){
+    if(el.classList.contains("del")){
+     el.parentElement.parentElement.remove();
+    }  
+  };
 
- // clear for function
-function clearForm() {
-    var inputs = document.querySelectorAll(".form-control");
+  }
 
-    inputs.forEach(function(cur){
-     cur.value = "";
-    inputs[0].focus();
-  });
-    notify.style.display ="none";
-    notify.style.display ="block";
-    $(".alert").removeClass("btn-danger");
-    $(".alert").addClass("btn-info");
-    notifySpan.textContent = ("Your Book Has Been Added");
+//  // local storage 
+//  class store{
+//    static getBook() {
 
-};
+//    }
+
+//   static addBook (book) {
+
+//   }
+
+//   static removeBook() {
+
+//   }
+//  }
+
+   
+
+    // Event: Display Books
+    // document.addEventListener('DOMContentLoaded', UiController.displayBooks);
+
+  // get values  & display data 
+   var btn = document.getElementById("submit")
 
 
 
+   displayData = function() {
+     var displayData, name, mail, phone, age, alert;
+     /// inputs value
+     name = document.getElementById("userName").value;
+     mail = document.getElementById("userMail").value;
+     phone = document.getElementById("userPhone").value;
+     age = document.getElementById("userAge").value;
+     book = new Book(name, mail, phone, age);
+
+     // validation
+
+     if (mail == "" || name == "" || age == "" || phone == "") {
+       alert = document.querySelector(".alert")
+       alert.style.display = "block"
+       alert.textContent = "you should fill the fields"
+     }else{
+       document.querySelector(".alert").style.display = "none";
+       UiController.addBookToList(book);
+       UiController.clearInputs();
+     };
+
+    
+  };
+
+
+
+
+
+
+  // display data event
+   btn.addEventListener("click", displayData);
+   document.addEventListener("keypress", function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+      displayData()
+    }
+   });
+
+  // delete event
+  document.querySelector("#list").addEventListener("click" , function(e){
+  //  UiController.deleteRow(e.target)
+    UiController.deleteRow(e.target)
+ })
+
+
+  
